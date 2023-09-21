@@ -1,6 +1,6 @@
 package com.shchurovsi.plainnewsapp.data.network
 
-import com.shchurovsi.plainnewsapp.data.network.model.NewsResponse
+import com.shchurovsi.plainnewsapp.data.network.model.NewsResponseDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -12,7 +12,7 @@ interface ApiService {
         @Query("country") countryCode: String = "ru",
         @Query("page") pageNumbers: Int = 1,
         @Query("apiKey") apiKey: String = API_KEY
-    ): Response<NewsResponse>
+    ): Response<NewsResponseDto>
 
     @GET("/v2/everything")
     suspend fun searchNews(
@@ -21,7 +21,7 @@ interface ApiService {
         @Query("page") pageNumbers: Int = 1,
         @Query("pageSize") pageSize: Int = 50,
         @Query("apiKey") apiKey: String = API_KEY
-    ): Response<NewsResponse>
+    ): Response<NewsResponseDto>
 
 
     companion object {

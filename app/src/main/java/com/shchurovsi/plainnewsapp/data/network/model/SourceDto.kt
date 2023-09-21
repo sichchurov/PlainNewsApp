@@ -3,7 +3,7 @@ package com.shchurovsi.plainnewsapp.data.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Source(
+data class SourceDto(
 
     @SerializedName("id")
     val id: String,
