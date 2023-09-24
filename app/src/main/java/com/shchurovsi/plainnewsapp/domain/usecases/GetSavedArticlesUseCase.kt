@@ -1,8 +1,9 @@
 package com.shchurovsi.plainnewsapp.domain.usecases
 
 import com.shchurovsi.plainnewsapp.domain.repository.NewsRepository
+import javax.inject.Inject
 
-class GetSavedArticlesUseCase(
+class GetSavedArticlesUseCase @Inject constructor(
     private val repository: NewsRepository
 ) {
 

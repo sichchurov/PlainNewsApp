@@ -68,6 +68,10 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.11.0")
     ksp("com.github.bumptech.glide:compiler:4.11.0")
 
+    //Dagger
+    implementation("com.google.dagger:dagger:2.48")
+    ksp("com.google.dagger:dagger-compiler:2.48")
+
     implementation("androidx.activity:activity-ktx:1.7.2")
     implementation("androidx.fragment:fragment-ktx:1.6.1")
     implementation("androidx.recyclerview:recyclerview:1.3.1")
