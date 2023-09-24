@@ -12,7 +12,7 @@ class NewsRepositoryImpl(
     private val application: Application
 ) : NewsRepository {
 
-    private val articleDao = ArticleDb.invoke(application).getArticleDao()
+    private val articleDao = ArticleDb(application).getArticleDao()
 
     private val mapper = Mapper()
     override fun getSavedNews(): LiveData<List<Article>> {
