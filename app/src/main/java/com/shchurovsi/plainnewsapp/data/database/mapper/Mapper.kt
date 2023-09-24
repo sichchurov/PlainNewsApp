@@ -12,6 +12,7 @@ class Mapper {
         title = articleDb.title,
         publishedAt = articleDb.publishedAt,
         url = articleDb.url,
+        source = articleDb.source.name,
         urlToImage = articleDb.urlToImage
     )
 
