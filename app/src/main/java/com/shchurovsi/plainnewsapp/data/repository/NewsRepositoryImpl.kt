@@ -7,14 +7,15 @@ import com.shchurovsi.plainnewsapp.data.database.db.ArticleDb
 import com.shchurovsi.plainnewsapp.data.database.mapper.Mapper
 import com.shchurovsi.plainnewsapp.domain.entities.Article
 import com.shchurovsi.plainnewsapp.domain.repository.NewsRepository
+import javax.inject.Inject
 
-class NewsRepositoryImpl(
-    private val application: Application
+class NewsRepositoryImpl @Inject constructor(
+    application: Application,
+    private val mapper: Mapper
 ) : NewsRepository {
 
     private val articleDao = ArticleDb(application).getArticleDao()
 
-    private val mapper = Mapper()
     override fun getSavedNews(): LiveData<List<Article>> {
         return articleDao.getSavedArticles().map {
             it.map { dbArticleList ->

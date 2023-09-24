@@ -2,9 +2,10 @@ package com.shchurovsi.plainnewsapp.data.database.mapper
 
 import androidx.room.TypeConverter
 import com.shchurovsi.plainnewsapp.data.database.model.SourceDbModel
+import javax.inject.Inject
 
 
-class Converter {
+class Converter @Inject constructor() {
 
     @TypeConverter
     fun fromSource(sourceDbModel: SourceDbModel) = sourceDbModel.name
