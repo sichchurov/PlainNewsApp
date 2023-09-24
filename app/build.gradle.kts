@@ -64,6 +64,10 @@ dependencies {
     ksp("androidx.room:room-compiler:2.5.2")
     implementation("androidx.room:room-ktx:2.5.2")
 
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.11.0")
+    ksp("com.github.bumptech.glide:compiler:4.11.0")
+
     implementation("androidx.activity:activity-ktx:1.7.2")
     implementation("androidx.fragment:fragment-ktx:1.6.1")
     implementation("androidx.recyclerview:recyclerview:1.3.1")
