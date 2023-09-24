@@ -1,4 +1,4 @@
-package com.shchurovsi.plainnewsapp.data.database
+package com.shchurovsi.plainnewsapp.data.database.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -18,5 +18,5 @@ interface ArticleDao {
     suspend fun upsert(articleModel: ArticleModel): Long
 
     @Delete
-    fun removeArticle(articleModel: ArticleModel)
+    suspend fun removeArticle(articleModel: ArticleModel)
 }
