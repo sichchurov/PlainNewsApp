@@ -6,10 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.shchurovsi.plainnewsapp.data.database.mapper.Converter
-import com.shchurovsi.plainnewsapp.data.database.model.ArticleModel
+import com.shchurovsi.plainnewsapp.data.database.model.ArticleDbModel
 
 @Database(
-    entities = [ArticleModel::class],
+    entities = [ArticleDbModel::class],
     version = 1
 )
 @TypeConverters(Converter::class)

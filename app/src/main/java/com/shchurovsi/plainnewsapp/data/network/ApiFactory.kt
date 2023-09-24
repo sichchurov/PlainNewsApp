@@ -9,17 +9,13 @@ object ApiFactory {
 
     private const val BASE_URL = "https://newsapi.org"
 
-    private val logging by lazy {
-        HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
+    private val logging = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
     }
 
-    private val client by lazy {
-        OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .build()
-    }
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(logging)
+        .build()
 
     private val retrofit by lazy {
         Retrofit.Builder()

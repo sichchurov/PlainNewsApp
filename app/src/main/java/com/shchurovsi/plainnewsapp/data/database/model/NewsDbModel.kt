@@ -1,7 +1,7 @@
 package com.shchurovsi.plainnewsapp.data.database.model
 
-data class NewsModel(
-    val articles: List<ArticleModel>,
+data class NewsDbModel(
+    val articles: List<ArticleDbModel>,
     val status: String,
     val totalResults: Int
 )
