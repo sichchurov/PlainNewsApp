@@ -7,10 +7,10 @@ import com.bumptech.glide.Glide
 import com.shchurovsi.plainnewsapp.databinding.ItemArticleBinding
 import com.shchurovsi.plainnewsapp.domain.entities.Article
 
-class NewsAdapter : ListAdapter<Article, NewsViewHolder>(ArticleDiffUtil()) {
+class ArticleAdapter : ListAdapter<Article, ArticleViewHolder>(ArticleDiffUtil()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        return NewsViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
+        return ArticleViewHolder(
             ItemArticleBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent, false
@@ -18,7 +18,7 @@ class NewsAdapter : ListAdapter<Article, NewsViewHolder>(ArticleDiffUtil()) {
         )
     }
 
-    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article = getItem(position)
         holder.binding.apply {
             Glide.with(root).load(article.urlToImage).into(ivArticleImage)
