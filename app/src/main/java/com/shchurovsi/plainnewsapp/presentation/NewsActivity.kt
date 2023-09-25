@@ -16,7 +16,7 @@ class NewsActivity : AppCompatActivity() {
         ActivityNewsBinding.inflate(layoutInflater)
     }
 
-    private val appComponent by lazy {
+    val appComponent by lazy {
         (application as NewsApplication).applicationComponent.activityComponent().create()
     }
 
