@@ -12,5 +12,5 @@ class NewsViewModel @Inject constructor(
     private val deleteArticleUseCase: DeleteArticleUseCase
 ) : ViewModel() {
 
-    val s = "Excellent!!!"
+
 }

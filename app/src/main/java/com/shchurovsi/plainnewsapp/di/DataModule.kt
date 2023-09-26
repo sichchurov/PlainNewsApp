@@ -1,15 +1,13 @@
 package com.shchurovsi.plainnewsapp.di
 
-import android.app.Application
-import com.shchurovsi.plainnewsapp.data.database.db.ArticleDao
-import com.shchurovsi.plainnewsapp.data.database.db.ArticleDb
-import com.shchurovsi.plainnewsapp.data.network.ApiFactory
-import com.shchurovsi.plainnewsapp.data.network.ApiService
+import com.shchurovsi.plainnewsapp.data.datasource.NewsLocalDataSource
+import com.shchurovsi.plainnewsapp.data.datasource.NewsLocalDataSourceImpl
+import com.shchurovsi.plainnewsapp.data.datasource.NewsRemoteDataSource
+import com.shchurovsi.plainnewsapp.data.datasource.NewsRemoteDataSourceImpl
 import com.shchurovsi.plainnewsapp.data.repository.NewsRepositoryImpl
 import com.shchurovsi.plainnewsapp.domain.repository.NewsRepository
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 
 
 @Module
@@ -20,18 +18,14 @@ interface DataModule {
     @Binds
     fun bindNewsRepository(impl: NewsRepositoryImpl): NewsRepository
 
-    companion object {
+    @Suppress("WARNINGS")
+    @ApplicationScope
+    @Binds
+    fun bindNewsLocalDataSource(impl: NewsLocalDataSourceImpl): NewsLocalDataSource
 
-        @ApplicationScope
-        @Provides
-        fun provideDao(application: Application): ArticleDao {
-            return ArticleDb(application).getArticleDao()
-        }
+    @Suppress("WARNINGS")
+    @ApplicationScope
+    @Binds
+    fun bindNewsRemoteDataSource(impl: NewsRemoteDataSourceImpl): NewsRemoteDataSource
 
-        @ApplicationScope
-        @Provides
-        fun providesService(): ApiService {
-            return ApiFactory.api
-        }
-    }
 }

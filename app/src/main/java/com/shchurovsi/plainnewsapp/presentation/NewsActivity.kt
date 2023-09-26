@@ -1,7 +1,6 @@
 package com.shchurovsi.plainnewsapp.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
@@ -32,8 +31,6 @@ class NewsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupBottomNavigation()
-
-        Log.d("TAG", viewModel.s)
     }
 
     private fun setupBottomNavigation() {
