@@ -24,6 +24,14 @@ class NewsRepositoryImpl @Inject constructor(
         return newsRemoteDataSource.getApi().getBreakingNews(countryCode, pageNumber)
     }
 
+    override suspend fun searchingNews(
+        query: String,
+        pageNumber: Int,
+        pageSize: Int
+    ): Response<NewsResponseDto> {
+        return newsRemoteDataSource.getApi().searchNews(query, pageNumber, pageSize)
+    }
+
 
     override fun getSavedNews(): LiveData<List<ArticleDto>> {
         return newsLocalDataSource.getDao().getSavedArticles().map {

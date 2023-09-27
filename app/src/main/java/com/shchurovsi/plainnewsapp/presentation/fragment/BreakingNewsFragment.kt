@@ -51,10 +51,10 @@ class BreakingNewsFragment : Fragment() {
 
         setupRecyclerView()
 
-        getBreakingNes()
+        getBreakingNews()
     }
 
-    private fun getBreakingNes() {
+    private fun getBreakingNews() {
         viewModel.breakingNews.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {

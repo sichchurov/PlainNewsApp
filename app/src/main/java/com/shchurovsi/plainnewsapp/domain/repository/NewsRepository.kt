@@ -17,4 +17,10 @@ interface NewsRepository {
         countryCode: String,
         pageNumber: Int
     ): Response<NewsResponseDto>
+
+    suspend fun searchingNews(
+        query: String,
+        pageNumber: Int,
+        pageSize: Int
+    ): Response<NewsResponseDto>
 }
