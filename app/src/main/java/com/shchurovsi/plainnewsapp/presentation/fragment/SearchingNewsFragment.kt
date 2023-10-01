@@ -10,6 +10,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shchurovsi.plainnewsapp.databinding.FragmentSearchingNewsBinding
 import com.shchurovsi.plainnewsapp.presentation.NewsActivity
@@ -59,6 +60,13 @@ class SearchingNewsFragment : Fragment() {
         getSearchingNews()
 
         setupRecyclerView()
+
+        newsAdapter.setOnItemClickListener { article ->
+            findNavController().navigate(
+                SearchingNewsFragmentDirections
+                    .actionSearchingNewsFragmentToArticleFragment(article.url)
+            )
+        }
     }
 
     private fun inputQueryNews() {

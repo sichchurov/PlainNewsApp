@@ -62,7 +62,7 @@ class NewsViewModel @Inject constructor(
     }
 
     companion object {
-        private const val COUNTRY_CODE = "us"
+        private const val COUNTRY_CODE = "ru"
         private const val PAGE_SIZE = 50
     }
 }

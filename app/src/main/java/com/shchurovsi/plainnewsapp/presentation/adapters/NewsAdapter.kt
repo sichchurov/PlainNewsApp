@@ -9,7 +9,8 @@ import com.shchurovsi.plainnewsapp.R
 import com.shchurovsi.plainnewsapp.data.network.model.ArticleDto
 import com.shchurovsi.plainnewsapp.databinding.ItemArticleBinding
 
-class NewsAdapter(private val context: Context) : ListAdapter<ArticleDto, NewsViewHolder>(NewsDiffUtil) {
+class NewsAdapter(private val context: Context) :
+    ListAdapter<ArticleDto, NewsViewHolder>(NewsDiffUtil) {
 
     private var onItemClickListener: ((ArticleDto) -> Unit)? = null
 
