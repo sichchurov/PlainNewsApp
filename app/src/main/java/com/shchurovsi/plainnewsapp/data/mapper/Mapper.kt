@@ -1,13 +1,13 @@
 package com.shchurovsi.plainnewsapp.data.mapper
 
 import com.shchurovsi.plainnewsapp.data.local.model.ArticleDbModel
-import com.shchurovsi.plainnewsapp.domain.entities.ArticleDto
+import com.shchurovsi.plainnewsapp.domain.entities.Article
 import javax.inject.Inject
 
 class Mapper @Inject constructor() {
 
 
-    fun mapArticleDbModelToArticle(articleDb: ArticleDbModel) = ArticleDto(
+    fun mapArticleDbModelToArticle(articleDb: ArticleDbModel) = Article(
         author = articleDb.author,
         content = articleDb.content,
         description = articleDb.description,

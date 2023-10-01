@@ -35,7 +35,7 @@ class NewsViewModel @Inject constructor(
     private var searchingNewsPage = 1
 
     init {
-        _breakingNews.value = Resource.Loading()
+        _breakingNews.postValue(Resource.Loading())
         getBreakingNews()
     }
 
@@ -63,6 +63,6 @@ class NewsViewModel @Inject constructor(
 
     companion object {
         private const val COUNTRY_CODE = "us"
-        private const val PAGE_SIZE = 20
+        private const val PAGE_SIZE = 50
     }
 }

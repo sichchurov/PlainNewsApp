@@ -5,12 +5,13 @@ buildscript {
 
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.2")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.3")
+        classpath("com.android.tools.build:gradle:8.1.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
     }
 }
 
 plugins {
-    id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
+    id("com.google.devtools.ksp") version "1.9.10-1.0.13" apply false
 }
 

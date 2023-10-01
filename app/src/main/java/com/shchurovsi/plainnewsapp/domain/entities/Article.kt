@@ -1,6 +1,6 @@
 package com.shchurovsi.plainnewsapp.domain.entities
 
-data class ArticleDto(
+data class Article(
 
     val author: String,
     val content: String,

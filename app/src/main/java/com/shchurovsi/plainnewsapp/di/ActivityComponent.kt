@@ -1,7 +1,7 @@
 package com.shchurovsi.plainnewsapp.di
 
 import com.shchurovsi.plainnewsapp.presentation.NewsActivity
-import com.shchurovsi.plainnewsapp.presentation.fragment.ArticleNewsFragment
+import com.shchurovsi.plainnewsapp.presentation.fragment.ArticleFragment
 import com.shchurovsi.plainnewsapp.presentation.fragment.BreakingNewsFragment
 import com.shchurovsi.plainnewsapp.presentation.fragment.SavedNewsFragment
 import com.shchurovsi.plainnewsapp.presentation.fragment.SearchingNewsFragment
@@ -17,7 +17,7 @@ interface ActivityComponent {
     }
 
     fun inject(activity: NewsActivity)
-    fun inject(fragment: ArticleNewsFragment)
+    fun inject(fragment: ArticleFragment)
     fun inject(fragment: BreakingNewsFragment)
     fun inject(fragment: SavedNewsFragment)
     fun inject(fragment: SearchingNewsFragment)

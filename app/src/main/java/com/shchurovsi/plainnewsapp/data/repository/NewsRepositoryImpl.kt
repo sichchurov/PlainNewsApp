@@ -6,7 +6,7 @@ import com.shchurovsi.plainnewsapp.data.datasource.NewsLocalDataSource
 import com.shchurovsi.plainnewsapp.data.datasource.NewsRemoteDataSource
 import com.shchurovsi.plainnewsapp.data.mapper.Mapper
 import com.shchurovsi.plainnewsapp.data.network.model.NewsResponseDto
-import com.shchurovsi.plainnewsapp.domain.entities.ArticleDto
+import com.shchurovsi.plainnewsapp.domain.entities.Article
 import com.shchurovsi.plainnewsapp.domain.repository.NewsRepository
 import retrofit2.Response
 import javax.inject.Inject
@@ -33,7 +33,7 @@ class NewsRepositoryImpl @Inject constructor(
     }
 
 
-    override fun getSavedNews(): LiveData<List<ArticleDto>> {
+    override fun getSavedNews(): LiveData<List<Article>> {
         return newsLocalDataSource.getDao().getSavedArticles().map {
             it.map { dbArticleList ->
                 mapper.mapArticleDbModelToArticle(dbArticleList)
@@ -41,7 +41,7 @@ class NewsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun insertNews(article: ArticleDto): Long {
+    override fun insertNews(article: Article): Long {
         TODO("Not yet implemented")
     }
 

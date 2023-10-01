@@ -7,7 +7,9 @@ import com.bumptech.glide.Glide
 import com.shchurovsi.plainnewsapp.data.network.model.ArticleDto
 import com.shchurovsi.plainnewsapp.databinding.ItemArticleBinding
 
-class NewsAdapter : ListAdapter<ArticleDto, NewsViewHolder>(NewsDiffUtil()) {
+class NewsAdapter : ListAdapter<ArticleDto, NewsViewHolder>(NewsDiffUtil) {
+
+    private var onItemClickListener: ((ArticleDto) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         return NewsViewHolder(
@@ -24,17 +26,13 @@ class NewsAdapter : ListAdapter<ArticleDto, NewsViewHolder>(NewsDiffUtil()) {
             Glide.with(root).load(article.urlToImage).into(ivArticleImage)
             tvSource.text = article.source.name
             tvTitle.text = article.title
-            tvDescription.text = article.description
+            tvDescription.text = article.description.toString()
             tvPublishedAt.text = article.publishedAt
             root.setOnClickListener {
-                onItemClickListener?.let {
-                    it(article)
-                }
+                onItemClickListener?.invoke(article)
             }
         }
     }
-
-    private var onItemClickListener: ((ArticleDto) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (ArticleDto) -> Unit) {
         onItemClickListener = listener

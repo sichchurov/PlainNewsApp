@@ -9,7 +9,7 @@ interface ApiService {
 
     @GET("/v2/top-headlines")
     suspend fun getBreakingNews(
-        @Query("country") countryCode: String = "ru",
+        @Query("country") countryCode: String = "us",
         @Query("page") pageNumbers: Int = 1,
         @Query("apiKey") apiKey: String = API_KEY
     ): Response<NewsResponseDto>
