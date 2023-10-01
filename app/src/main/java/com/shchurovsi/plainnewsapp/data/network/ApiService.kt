@@ -9,7 +9,7 @@ interface ApiService {
 
     @GET("/v2/top-headlines")
     suspend fun getBreakingNews(
-        @Query("country") countryCode: String = "ru",
+        @Query("country") countryCode: String = "us",
         @Query("page") pageNumbers: Int = 1,
         @Query("apiKey") apiKey: String = API_KEY
     ): Response<NewsResponseDto>
@@ -17,8 +17,7 @@ interface ApiService {
     @GET("/v2/everything")
     suspend fun searchNews(
         @Query("q") query: String,
-        @Query("language") searchLanguage: String = "ru",
-        @Query("page") pageNumbers: Int = 1,
+        @Query("page") pageNumber: Int = 1,
         @Query("pageSize") pageSize: Int = 50,
         @Query("apiKey") apiKey: String = API_KEY
     ): Response<NewsResponseDto>

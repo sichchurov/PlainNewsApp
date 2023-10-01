@@ -1,8 +1,6 @@
 package com.shchurovsi.plainnewsapp.presentation
 
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -16,14 +14,12 @@ class NewsActivity : AppCompatActivity() {
         ActivityNewsBinding.inflate(layoutInflater)
     }
 
-    private val appComponent by lazy {
+    val appComponent by lazy {
         (application as NewsApplication).applicationComponent.activityComponent().create()
     }
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: NewsViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         appComponent.inject(this)
@@ -32,8 +28,6 @@ class NewsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupBottomNavigation()
-
-        Log.d("TAG", viewModel.s)
     }
 
     private fun setupBottomNavigation() {

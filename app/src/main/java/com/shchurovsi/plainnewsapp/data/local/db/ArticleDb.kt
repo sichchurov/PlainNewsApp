@@ -1,16 +1,16 @@
-package com.shchurovsi.plainnewsapp.data.database.db
+package com.shchurovsi.plainnewsapp.data.local.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.shchurovsi.plainnewsapp.data.database.mapper.Converter
-import com.shchurovsi.plainnewsapp.data.database.model.ArticleDbModel
+import com.shchurovsi.plainnewsapp.data.local.model.ArticleDbModel
 
 @Database(
     entities = [ArticleDbModel::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 @TypeConverters(Converter::class)
 abstract class ArticleDb : RoomDatabase() {
@@ -35,7 +35,9 @@ abstract class ArticleDb : RoomDatabase() {
                 context.applicationContext,
                 ArticleDb::class.java,
                 DB_NAME
-            ).build()
+            )
+                .fallbackToDestructiveMigration()
+                .build()
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.shchurovsi.plainnewsapp.data.database.model
+package com.shchurovsi.plainnewsapp.data.local.model
 
 data class SourceDbModel(
 

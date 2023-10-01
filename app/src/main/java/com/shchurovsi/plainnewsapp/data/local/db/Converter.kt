@@ -1,7 +1,7 @@
-package com.shchurovsi.plainnewsapp.data.database.mapper
+package com.shchurovsi.plainnewsapp.data.local.db
 
 import androidx.room.TypeConverter
-import com.shchurovsi.plainnewsapp.data.database.model.SourceDbModel
+import com.shchurovsi.plainnewsapp.data.local.model.SourceDbModel
 import javax.inject.Inject
 
 
