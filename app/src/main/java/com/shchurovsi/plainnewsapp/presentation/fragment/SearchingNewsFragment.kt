@@ -29,7 +29,7 @@ class SearchingNewsFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("SearchingNewsFragment is null!")
 
     private val newsAdapter by lazy {
-        NewsAdapter()
+        NewsAdapter(requireActivity())
     }
 
     @Inject
