@@ -25,7 +25,7 @@ class BreakingNewsFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("BreakingNewsFragment is null!")
 
     private val newsAdapter by lazy {
-        NewsAdapter()
+        NewsAdapter(requireActivity())
     }
 
     @Inject
