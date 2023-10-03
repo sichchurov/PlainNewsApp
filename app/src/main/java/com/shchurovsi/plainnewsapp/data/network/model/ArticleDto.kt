@@ -1,5 +1,7 @@
 package com.shchurovsi.plainnewsapp.data.network.model
 
+import java.io.Serializable
+
 data class ArticleDto(
     val author: String,
     val content: String?,
@@ -9,5 +11,5 @@ data class ArticleDto(
     val title: String,
     val url: String,
     val urlToImage: String?
-)
+) : Serializable
 

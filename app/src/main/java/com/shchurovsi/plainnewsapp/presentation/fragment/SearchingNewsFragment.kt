@@ -64,7 +64,7 @@ class SearchingNewsFragment : Fragment() {
         newsAdapter.setOnItemClickListener { article ->
             findNavController().navigate(
                 SearchingNewsFragmentDirections
-                    .actionSearchingNewsFragmentToArticleFragment(article.url)
+                    .actionSearchingNewsFragmentToArticleFragment(article)
             )
         }
     }

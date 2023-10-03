@@ -56,7 +56,7 @@ class BreakingNewsFragment : Fragment() {
         newsAdapter.setOnItemClickListener { article ->
             findNavController().navigate(
                 BreakingNewsFragmentDirections
-                    .actionBreakingNewsFragmentToArticleFragment(article.url)
+                    .actionBreakingNewsFragmentToArticleFragment(article)
             )
         }
     }
