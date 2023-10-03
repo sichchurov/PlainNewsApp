@@ -1,15 +1,16 @@
 package com.shchurovsi.plainnewsapp.domain.repository
 
 import androidx.lifecycle.LiveData
+import com.shchurovsi.plainnewsapp.data.local.model.ArticleDbModel
+import com.shchurovsi.plainnewsapp.data.network.model.ArticleDto
 import com.shchurovsi.plainnewsapp.data.network.model.NewsResponseDto
-import com.shchurovsi.plainnewsapp.domain.entities.Article
 import retrofit2.Response
 
 interface NewsRepository {
 
-    fun getSavedNews(): LiveData<List<Article>>
+    fun getSavedNews(): LiveData<List<ArticleDbModel>>
 
-    fun insertNews(article: Article): Long
+    suspend fun insertNews(article: ArticleDto): Long
 
     fun deleteNews()
 

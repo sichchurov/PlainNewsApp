@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shchurovsi.plainnewsapp.data.local.model.ArticleDbModel
+import com.shchurovsi.plainnewsapp.data.mapper.Mapper
+import com.shchurovsi.plainnewsapp.data.network.model.ArticleDto
 import com.shchurovsi.plainnewsapp.data.network.model.NewsResponseDto
 import com.shchurovsi.plainnewsapp.domain.usecases.DeleteArticleUseCase
 import com.shchurovsi.plainnewsapp.domain.usecases.GetBreakingNewsUseCase
@@ -20,7 +23,8 @@ class NewsViewModel @Inject constructor(
     private val insertArticleUseCase: InsertArticleUseCase,
     private val deleteArticleUseCase: DeleteArticleUseCase,
     private val searchingNewsUseCase: SearchingNewsUseCase,
-    private val getBreakingNewsUseCase: GetBreakingNewsUseCase
+    private val getBreakingNewsUseCase: GetBreakingNewsUseCase,
+    private val mapper: Mapper
 ) : ViewModel() {
 
     private val _breakingNews = MutableLiveData<Resource<NewsResponseDto>>()
@@ -30,6 +34,9 @@ class NewsViewModel @Inject constructor(
     private val _searchingNews = MutableLiveData<Resource<NewsResponseDto>>()
     val searchingNews: LiveData<Resource<NewsResponseDto>>
         get() = _searchingNews
+
+    val savedArticles: LiveData<List<ArticleDbModel>>
+        get() = getSavedArticlesUseCase()
 
     private var breakingNewsPage = 1
     private var searchingNewsPage = 1
@@ -47,6 +54,10 @@ class NewsViewModel @Inject constructor(
     fun getSearchingNews(query: String, pageSize: Int = PAGE_SIZE) = viewModelScope.launch {
         val response = searchingNewsUseCase(query, searchingNewsPage, pageSize)
         _searchingNews.value = handleNewsResponse(response)
+    }
+
+    fun saveArticle(article: ArticleDto) = viewModelScope.launch {
+        insertArticleUseCase(article)
     }
 
     private fun handleNewsResponse(response: Response<NewsResponseDto>) =
