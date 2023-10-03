@@ -4,18 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shchurovsi.plainnewsapp.data.local.model.ArticleDbModel
-import com.shchurovsi.plainnewsapp.data.mapper.Mapper
-import com.shchurovsi.plainnewsapp.data.network.model.ArticleDto
-import com.shchurovsi.plainnewsapp.data.network.model.NewsResponseDto
+import com.shchurovsi.plainnewsapp.domain.entities.Article
+import com.shchurovsi.plainnewsapp.domain.entities.NewsResponse
 import com.shchurovsi.plainnewsapp.domain.usecases.DeleteArticleUseCase
 import com.shchurovsi.plainnewsapp.domain.usecases.GetBreakingNewsUseCase
 import com.shchurovsi.plainnewsapp.domain.usecases.GetSavedArticlesUseCase
 import com.shchurovsi.plainnewsapp.domain.usecases.InsertArticleUseCase
 import com.shchurovsi.plainnewsapp.domain.usecases.SearchingNewsUseCase
 import com.shchurovsi.plainnewsapp.utils.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Response
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class NewsViewModel @Inject constructor(
@@ -23,19 +23,18 @@ class NewsViewModel @Inject constructor(
     private val insertArticleUseCase: InsertArticleUseCase,
     private val deleteArticleUseCase: DeleteArticleUseCase,
     private val searchingNewsUseCase: SearchingNewsUseCase,
-    private val getBreakingNewsUseCase: GetBreakingNewsUseCase,
-    private val mapper: Mapper
+    private val getBreakingNewsUseCase: GetBreakingNewsUseCase
 ) : ViewModel() {
 
-    private val _breakingNews = MutableLiveData<Resource<NewsResponseDto>>()
-    val breakingNews: LiveData<Resource<NewsResponseDto>>
+    private val _breakingNews = MutableLiveData<Resource<NewsResponse>>()
+    val breakingNews: LiveData<Resource<NewsResponse>>
         get() = _breakingNews
 
-    private val _searchingNews = MutableLiveData<Resource<NewsResponseDto>>()
-    val searchingNews: LiveData<Resource<NewsResponseDto>>
+    private val _searchingNews = MutableLiveData<Resource<NewsResponse>>()
+    val searchingNews: LiveData<Resource<NewsResponse>>
         get() = _searchingNews
 
-    val savedArticles: LiveData<List<ArticleDbModel>>
+    val savedArticles: LiveData<List<Article>>
         get() = getSavedArticlesUseCase()
 
     private var breakingNewsPage = 1
@@ -46,31 +45,47 @@ class NewsViewModel @Inject constructor(
         getBreakingNews()
     }
 
-    private fun getBreakingNews(countryCode: String = COUNTRY_CODE) = viewModelScope.launch {
-        val response = getBreakingNewsUseCase(countryCode, breakingNewsPage)
-        _breakingNews.value = handleNewsResponse(response)
+    private fun getBreakingNews(countryCode: String = COUNTRY_CODE) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = getBreakingNewsUseCase(countryCode, breakingNewsPage)
+                _breakingNews.postValue(Resource.Success(response))
+            } catch (ioe: IOException) {
+                _breakingNews.postValue(
+                    Resource.Error("[IO] error please retry, ${ioe.message}")
+                )
+            } catch (he: HttpException) {
+                _breakingNews.postValue(
+                    Resource.Error("[HTTP] error please retry, ${he.message}")
+                )
+            }
+
+        }
     }
 
     fun getSearchingNews(query: String, pageSize: Int = PAGE_SIZE) = viewModelScope.launch {
-        val response = searchingNewsUseCase(query, searchingNewsPage, pageSize)
-        _searchingNews.value = handleNewsResponse(response)
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = searchingNewsUseCase(query, searchingNewsPage, pageSize)
+                _searchingNews.postValue(Resource.Success(response))
+            } catch (ioe: IOException) {
+                _searchingNews.postValue(
+                    Resource.Error("[IO] error please retry, ${ioe.message}")
+                )
+            } catch (he: HttpException) {
+                _searchingNews.postValue(
+                    Resource.Error("[HTTP] error please retry, ${he.message}")
+                )
+            }
+
+        }
+
     }
 
-    fun saveArticle(article: ArticleDto) = viewModelScope.launch {
+    fun saveArticle(article: Article) = viewModelScope.launch {
         insertArticleUseCase(article)
     }
 
-    private fun handleNewsResponse(response: Response<NewsResponseDto>) =
-        responseDtoResource(response)
-
-    private fun responseDtoResource(response: Response<NewsResponseDto>): Resource<NewsResponseDto> {
-        if (response.isSuccessful) {
-            response.body()?.let { resultResponse ->
-                return Resource.Success(resultResponse)
-            }
-        }
-        return Resource.Error(response.message())
-    }
 
     companion object {
         private const val COUNTRY_CODE = "ru"
