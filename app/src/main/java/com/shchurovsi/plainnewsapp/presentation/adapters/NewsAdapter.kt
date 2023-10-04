@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.shchurovsi.plainnewsapp.R
-import com.shchurovsi.plainnewsapp.data.network.model.ArticleDto
 import com.shchurovsi.plainnewsapp.databinding.ItemArticleBinding
+import com.shchurovsi.plainnewsapp.domain.entities.Article
 
 class NewsAdapter(private val context: Context) :
-    ListAdapter<ArticleDto, NewsViewHolder>(NewsDiffUtil) {
+    ListAdapter<Article, NewsViewHolder>(NewsDiffUtil) {
 
-    private var onItemClickListener: ((ArticleDto) -> Unit)? = null
+    private var onItemClickListener: ((Article) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         return NewsViewHolder(
@@ -27,7 +27,7 @@ class NewsAdapter(private val context: Context) :
         val article = getItem(position)
         holder.binding.apply {
             Glide.with(root).load(article.urlToImage).into(ivArticleImage)
-            tvSource.text = article.source.name
+            tvSource.text = article.source
             tvTitle.text = article.title
             tvDescription.text =
                 if (article.description.isNullOrBlank()) {
@@ -40,7 +40,7 @@ class NewsAdapter(private val context: Context) :
         }
     }
 
-    fun setOnItemClickListener(listener: (ArticleDto) -> Unit) {
+    fun setOnItemClickListener(listener: (Article) -> Unit) {
         onItemClickListener = listener
     }
 }

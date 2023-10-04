@@ -1,40 +1,33 @@
 package com.shchurovsi.plainnewsapp.data.mapper
 
 import com.shchurovsi.plainnewsapp.data.local.model.ArticleDbModel
-import com.shchurovsi.plainnewsapp.data.local.model.SourceDbModel
 import com.shchurovsi.plainnewsapp.data.network.model.ArticleDto
-import com.shchurovsi.plainnewsapp.data.network.model.SourceDto
+import com.shchurovsi.plainnewsapp.data.network.model.NewsResponseDto
 import com.shchurovsi.plainnewsapp.domain.entities.Article
+import com.shchurovsi.plainnewsapp.domain.entities.NewsResponse
 import javax.inject.Inject
 
 class Mapper @Inject constructor() {
 
-
-    fun mapArticleDbModelToArticleDto(articleDb: ArticleDbModel) = ArticleDto(
-        author = articleDb.author,
-        content = articleDb.content,
+    fun mapArticleDbModelToArticleEntity(articleDb: ArticleDbModel) = Article(
         description = articleDb.description,
         title = articleDb.title,
         publishedAt = articleDb.publishedAt,
         url = articleDb.url,
-        source = mapSourceDbModelToSourceDto(articleDb.source),
+        source = articleDb.source,
         urlToImage = articleDb.urlToImage
     )
 
-    fun mapArticleDtoToArticleDbModel(articleDto: ArticleDto) = ArticleDbModel(
-        author = articleDto.author,
-        content = articleDto.content,
-        description = articleDto.description,
-        title = articleDto.title,
-        publishedAt = articleDto.publishedAt,
-        url = articleDto.url,
-        source = mapSourceDtoToSourceDbModel(articleDto.source),
-        urlToImage = articleDto.urlToImage
+    fun mapArticleEntityToArticleDbModel(article: Article) = ArticleDbModel(
+        description = article.description,
+        title = article.title,
+        publishedAt = article.publishedAt,
+        url = article.url,
+        source = article.source,
+        urlToImage = article.urlToImage
     )
 
     private fun mapArticleDtoToArticle(articleDto: ArticleDto) = Article(
-        author = articleDto.author,
-        content = articleDto.content,
         description = articleDto.description,
         title = articleDto.title,
         publishedAt = articleDto.publishedAt,
@@ -43,17 +36,17 @@ class Mapper @Inject constructor() {
         urlToImage = articleDto.urlToImage
     )
 
-    private fun mapSourceDtoToSourceDbModel(sourceDto: SourceDto) = SourceDbModel(
-        sourceDto.id,
-        sourceDto.name
-    )
+    fun mapNewsResponseDtoToNewsResponseEntity(newsResponseDto: NewsResponseDto): NewsResponse {
+        return NewsResponse(
+            mapListArticleDtoToListArticleEntity(newsResponseDto.articles),
+            newsResponseDto.status,
+            newsResponseDto.totalResults
+        )
+    }
 
-    private fun mapSourceDbModelToSourceDto(sourceDb: SourceDbModel) = SourceDto(
-        sourceDb.id,
-        sourceDb.name
-    )
-
-    // TODO: create mapper from Response<Dto> to Response<Entity>
-
-
+    private fun mapListArticleDtoToListArticleEntity(listArticleDto: List<ArticleDto>): List<Article> {
+        return listArticleDto.map {
+            mapArticleDtoToArticle(it)
+        }
+    }
 }

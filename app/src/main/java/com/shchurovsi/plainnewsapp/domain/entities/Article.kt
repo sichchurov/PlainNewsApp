@@ -1,13 +1,14 @@
 package com.shchurovsi.plainnewsapp.domain.entities
 
-data class Article(
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-    val author: String,
-    val content: String?,
+@Parcelize
+data class Article(
     val description: String?,
     val publishedAt: String,
     val source: String,
     val title: String,
     val url: String,
     val urlToImage: String?
-)
+) : Parcelable
