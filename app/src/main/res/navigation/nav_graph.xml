@@ -26,7 +26,13 @@
         android:label="SavedNewsFragment">
         <action
             android:id="@+id/action_savedNewsFragment_to_articleFragment"
-            app:destination="@id/articleFragment" />
+            app:destination="@id/articleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/savedNewsFragment"
+            app:popUpToSaveState="true" />
     </fragment>
 
     <fragment
@@ -35,7 +41,13 @@
         android:label="SearchingNewsFragment">
         <action
             android:id="@+id/action_searchingNewsFragment_to_articleFragment"
-            app:destination="@id/articleFragment" />
+            app:destination="@id/articleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/searchingNewsFragment"
+            app:popUpToSaveState="true" />
     </fragment>
 
     <fragment
@@ -45,5 +57,6 @@
         <argument
             android:name="article"
             app:argType="com.shchurovsi.plainnewsapp.domain.entities.Article" />
+
     </fragment>
 </navigation>

@@ -49,7 +49,7 @@ class NewsRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun deleteNews() {
-        TODO("Not yet implemented")
+    override suspend fun deleteNews(article: Article) {
+        article.id?.let { newsLocalDataSource.getDao().removeArticle(it) }
     }
 }

@@ -1,5 +1,6 @@
 package com.shchurovsi.plainnewsapp.domain.usecases
 
+import com.shchurovsi.plainnewsapp.domain.entities.Article
 import com.shchurovsi.plainnewsapp.domain.repository.NewsRepository
 import javax.inject.Inject
 
@@ -7,7 +8,7 @@ class DeleteArticleUseCase @Inject constructor(
     private val repository: NewsRepository
 ) {
 
-    operator fun invoke() {
-        repository.deleteNews()
+    suspend operator fun invoke(article: Article) {
+        repository.deleteNews(article)
     }
 }

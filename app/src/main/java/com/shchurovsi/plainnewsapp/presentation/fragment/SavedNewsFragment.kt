@@ -2,13 +2,17 @@ package com.shchurovsi.plainnewsapp.presentation.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.shchurovsi.plainnewsapp.databinding.FragmentSavedNewsBinding
 import com.shchurovsi.plainnewsapp.presentation.NewsActivity
 import com.shchurovsi.plainnewsapp.presentation.NewsViewModel
@@ -49,9 +53,12 @@ class SavedNewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupSwipeListener()
+
         setupRecyclerView()
 
         observe()
+
 
         newsAdapter.setOnItemClickListener { article ->
             findNavController().navigate(
@@ -77,6 +84,35 @@ class SavedNewsFragment : Fragment() {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+    }
+
+    private fun setupSwipeListener() {
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.bindingAdapterPosition
+                val article = newsAdapter.currentList[position]
+                Log.d("TAG", "Article ID: ${article.id}")
+                viewModel.deleteArticle(article)
+
+                Snackbar.make(binding.root, "Successfully deleted article!", Snackbar.LENGTH_LONG)
+                    .apply {
+                        setAction("Undo") {
+                            viewModel.saveArticle(article)
+                        }
+                    }.show()
+            }
+        }).attachToRecyclerView(binding.savedArticleRecycler)
     }
 
 }

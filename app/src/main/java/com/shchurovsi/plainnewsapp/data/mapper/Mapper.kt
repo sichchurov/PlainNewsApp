@@ -10,6 +10,7 @@ import javax.inject.Inject
 class Mapper @Inject constructor() {
 
     fun mapArticleDbModelToArticleEntity(articleDb: ArticleDbModel) = Article(
+        id = articleDb.id,
         description = articleDb.description,
         title = articleDb.title,
         publishedAt = articleDb.publishedAt,
