@@ -23,7 +23,6 @@ class NewsRepositoryImpl @Inject constructor(
         return mapper.mapNewsResponseDtoToNewsResponseEntity(
             newsRemoteDataSource.getApi().getBreakingNews(countryCode, pageNumber)
         )
-
     }
 
     override suspend fun searchingNews(
@@ -48,7 +47,6 @@ class NewsRepositoryImpl @Inject constructor(
         return newsLocalDataSource.getDao().upsert(
             mapper.mapArticleEntityToArticleDbModel(article)
         )
-
     }
 
     override fun deleteNews() {

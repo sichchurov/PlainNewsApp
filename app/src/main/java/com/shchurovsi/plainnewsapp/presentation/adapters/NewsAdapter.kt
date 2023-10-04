@@ -27,7 +27,7 @@ class NewsAdapter(private val context: Context) :
         val article = getItem(position)
         holder.binding.apply {
             Glide.with(root).load(article.urlToImage).into(ivArticleImage)
-            tvSource.text = article.source.name
+            tvSource.text = article.source
             tvTitle.text = article.title
             tvDescription.text =
                 if (article.description.isNullOrBlank()) {
