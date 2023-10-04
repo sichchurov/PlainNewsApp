@@ -10,7 +10,7 @@ interface NewsRepository {
 
     suspend fun insertNews(article: Article): Long
 
-    fun deleteNews()
+    suspend fun deleteNews(article: Article)
 
     suspend fun getBreakingNews(
         countryCode: String,

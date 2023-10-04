@@ -2,7 +2,6 @@ package com.shchurovsi.plainnewsapp.data.local.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -17,6 +16,6 @@ interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(articleDbModel: ArticleDbModel): Long
 
-    @Delete
-    suspend fun removeArticle(articleDbModel: ArticleDbModel)
+    @Query("DELETE FROM articles WHERE id = :articleId")
+    suspend fun removeArticle(articleId: Int)
 }

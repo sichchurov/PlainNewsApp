@@ -5,9 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "articles")
 data class ArticleDbModel(
-
     @PrimaryKey(autoGenerate = true)
-    var id: Int? = null,
+    val id: Int? = null,
     val description: String?,
     val publishedAt: String,
     val source: String,

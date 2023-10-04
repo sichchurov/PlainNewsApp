@@ -86,6 +86,10 @@ class NewsViewModel @Inject constructor(
         insertArticleUseCase(article)
     }
 
+    fun deleteArticle(article: Article) = viewModelScope.launch {
+        deleteArticleUseCase(article)
+    }
+
 
     companion object {
         private const val COUNTRY_CODE = "ru"
