@@ -1,5 +1,6 @@
 package com.shchurovsi.plainnewsapp.data.network
 
+import com.shchurovsi.plainnewsapp.BuildConfig
 import com.shchurovsi.plainnewsapp.data.network.model.NewsResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -24,6 +25,6 @@ interface ApiService {
 
     companion object {
 
-        private const val API_KEY = "b1602a4c6fc641d2b9093f72cb626829"
+        private const val API_KEY = BuildConfig.API_KEY
     }
 }
