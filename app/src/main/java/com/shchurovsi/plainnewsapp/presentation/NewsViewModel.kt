@@ -12,7 +12,6 @@ import com.shchurovsi.plainnewsapp.domain.usecases.GetSavedArticlesUseCase
 import com.shchurovsi.plainnewsapp.domain.usecases.InsertArticleUseCase
 import com.shchurovsi.plainnewsapp.domain.usecases.SearchingNewsUseCase
 import com.shchurovsi.plainnewsapp.utils.Resource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -45,39 +44,30 @@ class NewsViewModel @Inject constructor(
         getBreakingNews()
     }
 
-    private fun getBreakingNews(countryCode: String = COUNTRY_CODE) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = getBreakingNewsUseCase(countryCode, breakingNewsPage)
-                _breakingNews.postValue(Resource.Success(response))
-            } catch (ioe: IOException) {
-                _breakingNews.postValue(
-                    Resource.Error("[IO] error please retry, ${ioe.message}")
-                )
-            } catch (he: HttpException) {
-                _breakingNews.postValue(
-                    Resource.Error("[HTTP] error please retry, ${he.message}")
-                )
-            }
-
+    private fun getBreakingNews(countryCode: String = COUNTRY_CODE) = viewModelScope.launch {
+        try {
+            val response = getBreakingNewsUseCase(countryCode, breakingNewsPage)
+            _breakingNews.value = Resource.Success(response)
+        } catch (ioe: IOException) {
+            _breakingNews.value =
+                Resource.Error("[IO] error please retry, ${ioe.message}")
+        } catch (he: HttpException) {
+            _breakingNews.value =
+                Resource.Error("[HTTP] error please retry, ${he.message}")
         }
+
     }
 
     fun getSearchingNews(query: String, pageSize: Int = PAGE_SIZE) = viewModelScope.launch {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = searchingNewsUseCase(query, searchingNewsPage, pageSize)
-                _searchingNews.postValue(Resource.Success(response))
-            } catch (ioe: IOException) {
-                _searchingNews.postValue(
-                    Resource.Error("[IO] error please retry, ${ioe.message}")
-                )
-            } catch (he: HttpException) {
-                _searchingNews.postValue(
-                    Resource.Error("[HTTP] error please retry, ${he.message}")
-                )
-            }
-
+        try {
+            val response = searchingNewsUseCase(query, searchingNewsPage, pageSize)
+            _searchingNews.value = Resource.Success(response)
+        } catch (ioe: IOException) {
+            _searchingNews.value =
+                Resource.Error("[IO] error please retry, ${ioe.message}")
+        } catch (he: HttpException) {
+            _searchingNews.value =
+                Resource.Error("[HTTP] error please retry, ${he.message}")
         }
 
     }
