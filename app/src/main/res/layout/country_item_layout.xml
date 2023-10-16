@@ -12,6 +12,7 @@
         app:cardElevation="0dp"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- TODO: remove -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_country_flag"
             android:layout_width="wrap_content"
