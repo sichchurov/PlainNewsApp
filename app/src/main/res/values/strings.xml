@@ -15,4 +15,5 @@
     <string name="choose_country">Choose Country</string>
     <string name="bottomsheetbehavior_bt">bottomSheetBehavior_bt</string>
     <string name="russia">Russia</string>
+    <string name="open_bottom_sheet_button">open bottom sheet button</string>
 </resources>

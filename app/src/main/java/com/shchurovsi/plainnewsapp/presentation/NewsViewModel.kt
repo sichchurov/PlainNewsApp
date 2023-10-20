@@ -3,7 +3,9 @@ package com.shchurovsi.plainnewsapp.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.shchurovsi.plainnewsapp.data.repository.NewsRepositoryImpl
 import com.shchurovsi.plainnewsapp.domain.entities.Article
 import com.shchurovsi.plainnewsapp.domain.entities.NewsResponse
 import com.shchurovsi.plainnewsapp.domain.usecases.DeleteArticleUseCase
@@ -22,7 +24,8 @@ class NewsViewModel @Inject constructor(
     private val insertArticleUseCase: InsertArticleUseCase,
     private val deleteArticleUseCase: DeleteArticleUseCase,
     private val searchingNewsUseCase: SearchingNewsUseCase,
-    private val getBreakingNewsUseCase: GetBreakingNewsUseCase
+    private val getBreakingNewsUseCase: GetBreakingNewsUseCase,
+    private val repositoryImpl: NewsRepositoryImpl
 ) : ViewModel() {
 
     private val _breakingNews = MutableLiveData<Resource<NewsResponse>>()
@@ -36,17 +39,25 @@ class NewsViewModel @Inject constructor(
     val savedArticles: LiveData<List<Article>>
         get() = getSavedArticlesUseCase()
 
+    suspend fun saveCountry(country: String) {
+        repositoryImpl.getDataStore().saveToDataStore(country)
+    }
+
     private var breakingNewsPage = 1
     private var searchingNewsPage = 1
+    var countryCode = "ru"
+
+    val currentCountry = repositoryImpl.getDataStore()
+        .readCountryFromDataStore.asLiveData()
 
     init {
         _breakingNews.postValue(Resource.Loading())
         getBreakingNews()
     }
 
-    private fun getBreakingNews(countryCode: String = COUNTRY_CODE) = viewModelScope.launch {
+    private fun getBreakingNews(code: String = countryCode) = viewModelScope.launch {
         try {
-            val response = getBreakingNewsUseCase(countryCode, breakingNewsPage)
+            val response = getBreakingNewsUseCase(code, breakingNewsPage)
             _breakingNews.value = Resource.Success(response)
         } catch (ioe: IOException) {
             _breakingNews.value =
@@ -80,9 +91,7 @@ class NewsViewModel @Inject constructor(
         deleteArticleUseCase(article)
     }
 
-
     companion object {
-        private const val COUNTRY_CODE = "us"
         private const val PAGE_SIZE = 50
     }
 }

@@ -2,7 +2,7 @@ package com.shchurovsi.plainnewsapp.utils.countrypicker
 
 import android.content.Context
 import android.util.Log
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
@@ -11,13 +11,14 @@ import com.shchurovsi.plainnewsapp.R
 import com.shchurovsi.plainnewsapp.domain.entities.Country
 import com.shchurovsi.plainnewsapp.utils.countrypicker.adapter.CountryPickerAdapter
 import okio.IOException
+import java.util.Collections
 
 
 class CountryPicker(
-    val context: Context
+    private val context: Context
 ) {
 
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
     private val allCountries = getAllCountries()
 
@@ -25,7 +26,7 @@ class CountryPicker(
         CountryPickerAdapter(context, allCountries)
     }
 
-    fun attach(bottomSheet: ConstraintLayout): CountryPicker {
+    fun attach(bottomSheet: LinearLayout): CountryPicker {
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
         setUpRecyclerView(bottomSheet)
         return this
@@ -62,7 +63,7 @@ class CountryPicker(
         return countries.toList()
     }
 
-    private fun setUpRecyclerView(bottomSheet: ConstraintLayout) {
+    private fun setUpRecyclerView(bottomSheet: LinearLayout) {
         val recyclerView = bottomSheet.findViewById<RecyclerView>(R.id.country_picker_recycler)
         recyclerView.adapter = adapter
     }

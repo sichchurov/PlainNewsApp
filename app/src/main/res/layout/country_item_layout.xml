@@ -6,19 +6,13 @@
     android:layout_margin="10dp">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="?attr/fab_background"
-        app:cardElevation="0dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <!-- TODO: remove -->
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_country_flag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center"
-            android:src="@drawable/ic_globe" />
 
         <TextView
             android:id="@+id/tv_country_name"
@@ -26,8 +20,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:layout_marginStart="30dp"
-            android:color="?attr/Heading_color"
+            android:padding="2dp"
             android:tag="ru"
+            android:textColor="?attr/Heading_color"
             android:text="@string/russia"
             android:textSize="20sp" />
 

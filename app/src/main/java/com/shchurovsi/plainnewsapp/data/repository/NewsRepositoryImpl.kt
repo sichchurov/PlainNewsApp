@@ -1,5 +1,6 @@
 package com.shchurovsi.plainnewsapp.data.repository
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.shchurovsi.plainnewsapp.data.datasource.NewsLocalDataSource
@@ -13,7 +14,8 @@ import javax.inject.Inject
 class NewsRepositoryImpl @Inject constructor(
     private val newsLocalDataSource: NewsLocalDataSource,
     private val newsRemoteDataSource: NewsRemoteDataSource,
-    private val mapper: Mapper
+    private val mapper: Mapper,
+    private val application: Application
 ) : NewsRepository {
 
     override suspend fun getBreakingNews(
@@ -52,4 +54,6 @@ class NewsRepositoryImpl @Inject constructor(
     override suspend fun deleteNews(article: Article) {
         article.id?.let { newsLocalDataSource.getDao().removeArticle(it) }
     }
+
+    fun getDataStore() = DataStoreRepository(application)
 }
