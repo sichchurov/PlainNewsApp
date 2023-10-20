@@ -1,25 +1,13 @@
 package com.shchurovsi.plainnewsapp.utils.countrypicker.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.emoji.bundled.BundledEmojiCompatConfig
 import androidx.emoji.text.EmojiCompat
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import com.shchurovsi.plainnewsapp.databinding.CountryItemLayoutBinding
 import com.shchurovsi.plainnewsapp.domain.entities.Country
 
-class CountryPickerAdapter(
-    context: Context,
-    private val countryList: List<Country>) :
-    RecyclerView.Adapter<CountryPickerViewHolder>() {
-
-    // Initialize EmojiCompat with bundled font support (no need for a FontRequest)
-
-    init {
-        val config = BundledEmojiCompatConfig(context)
-        EmojiCompat.init(config)
-    }
+class CountryPickerAdapter : ListAdapter<Country, CountryPickerViewHolder>(DiffCallback) {
 
     private var onCountrySelectedListener: ((Country) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryPickerViewHolder {
@@ -30,22 +18,16 @@ class CountryPickerAdapter(
         )
     }
 
-    override fun getItemCount(): Int {
-        return countryList.size
-    }
-
     override fun onBindViewHolder(holder: CountryPickerViewHolder, position: Int) {
-        val countryItem = countryList[position]
+        val countryItem = getItem(position)
         holder.binding.apply {
-            countryItem.let {
-                val emoji = EmojiCompat.get().process(countryItem.emoji ?: "")
-                val countryText = "$emoji ${countryItem.name} "
-                tvCountryName.text = countryText
-                tvCountryName.tag = countryItem.code
-                root.setOnClickListener {
-                    onCountrySelectedListener?.let {
-                        it(countryItem)
-                    }
+            val emoji = EmojiCompat.get().process(countryItem.emoji ?: "")
+            val countryText = "${emoji.toString()} ${countryItem.name} "
+            tvCountryName.text = countryText
+            tvCountryName.tag = countryItem.code
+            root.setOnClickListener {
+                onCountrySelectedListener?.let {
+                    it(countryItem)
                 }
             }
         }

@@ -2,9 +2,14 @@ package com.shchurovsi.plainnewsapp.presentation
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.emoji.bundled.BundledEmojiCompatConfig
+import androidx.emoji.text.EmojiCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -25,15 +30,6 @@ class NewsActivity : AppCompatActivity() {
         (application as NewsApplication).applicationComponent.activityComponent().create()
     }
 
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
-
-
-
-    private val countryPickerBinding by lazy {
-        CountryPickerLayoutBinding.inflate(layoutInflater)
-    }
-
-    private lateinit var countryPicker: CountryPicker
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -48,16 +44,38 @@ class NewsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
 
+        // Initialize EmojiCompat
+        val config = BundledEmojiCompatConfig(this)
+        EmojiCompat.init(config)
 
         setupBottomSheet()
 
         setupBottomNavigation()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.choose_country -> {
+                CountryPicker(this@NewsActivity).show(supportFragmentManager, "Country")
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 
     private fun setupBottomSheet() {
-
+        viewModel.currentCountry.observe(this) {
+            Log.d("TAG", "CODE: $it")
+        }
     }
 
     private fun setupBottomNavigation() {
@@ -67,4 +85,6 @@ class NewsActivity : AppCompatActivity() {
 
         binding.bottomNavigation.setupWithNavController(navController)
     }
+
+
 }

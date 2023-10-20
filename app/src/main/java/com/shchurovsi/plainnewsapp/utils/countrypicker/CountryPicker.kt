@@ -1,47 +1,68 @@
 package com.shchurovsi.plainnewsapp.utils.countrypicker
 
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
-import android.widget.LinearLayout
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.emoji.bundled.BundledEmojiCompatConfig
+import androidx.emoji.text.EmojiCompat
+import androidx.fragment.app.DialogFragment
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.shchurovsi.plainnewsapp.R
+import com.shchurovsi.plainnewsapp.databinding.CountryPickerLayoutBinding
 import com.shchurovsi.plainnewsapp.domain.entities.Country
 import com.shchurovsi.plainnewsapp.utils.countrypicker.adapter.CountryPickerAdapter
 import okio.IOException
-import java.util.Collections
 
 
-class CountryPicker(
-    private val context: Context
-) {
+class CountryPicker(private val context: Context) : DialogFragment() {
 
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    private val countryPickerAdapter by lazy {
+        CountryPickerAdapter()
+    }
 
     private val allCountries = getAllCountries()
 
-    private val adapter by lazy {
-        CountryPickerAdapter(context, allCountries)
+    private var _countryPickerBinding: CountryPickerLayoutBinding? = null
+    private val countryPickerBinding
+        get() = _countryPickerBinding ?: throw RuntimeException("CountryPicker is null!")
+
+    interface ConfirmationListener {
+        fun confirmButtonClick(country: String)
     }
 
-    fun attach(bottomSheet: LinearLayout): CountryPicker {
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
-        setUpRecyclerView(bottomSheet)
-        return this
+    private lateinit var listener: ConfirmationListener
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _countryPickerBinding = CountryPickerLayoutBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+
+        return countryPickerBinding.root
     }
 
-    fun show(): CountryPicker {
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        return this
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpRecyclerView()
+
+
+        countryPickerAdapter.submitList(allCountries)
+
     }
 
-    fun dismiss(): CountryPicker {
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        return this
-    }
 
+    /**
+     * Get all countries from countries.json
+     */
     private fun getAllCountries(): List<Country> {
         val countries = mutableListOf<Country>()
 
@@ -63,9 +84,11 @@ class CountryPicker(
         return countries.toList()
     }
 
-    private fun setUpRecyclerView(bottomSheet: LinearLayout) {
-        val recyclerView = bottomSheet.findViewById<RecyclerView>(R.id.country_picker_recycler)
-        recyclerView.adapter = adapter
+    private fun setUpRecyclerView() {
+        countryPickerBinding.countryPickerRecycler.apply {
+            adapter = countryPickerAdapter
+        }
+
     }
 
     companion object {
