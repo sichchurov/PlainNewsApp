@@ -3,6 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical">
 
     <TextView
@@ -10,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center"
-        android:padding="2dp"
+        android:padding="8dp"
         android:tag="ru"
         android:text="@string/russia"
         android:textColor="?attr/Heading_color"

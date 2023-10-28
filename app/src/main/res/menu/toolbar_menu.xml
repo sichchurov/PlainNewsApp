@@ -5,6 +5,6 @@
     <item
         android:id="@+id/choose_country"
         android:icon="@drawable/ic_change_country"
-        android:title="@string/change_country"
+        android:title="@string/current_country"
         app:showAsAction="always" />
 </menu>

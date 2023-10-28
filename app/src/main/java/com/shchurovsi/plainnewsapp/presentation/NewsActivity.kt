@@ -4,20 +4,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.emoji.bundled.BundledEmojiCompatConfig
 import androidx.emoji.text.EmojiCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.shchurovsi.plainnewsapp.R
 import com.shchurovsi.plainnewsapp.databinding.ActivityNewsBinding
-import com.shchurovsi.plainnewsapp.databinding.CountryPickerLayoutBinding
-import com.shchurovsi.plainnewsapp.utils.countrypicker.CountryPicker
+import com.shchurovsi.plainnewsapp.utils.countrypicker.SettingsPicker
 import javax.inject.Inject
 
 class NewsActivity : AppCompatActivity() {
@@ -63,14 +58,13 @@ class NewsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.choose_country -> {
-                CountryPicker(this@NewsActivity).show(supportFragmentManager, "Country")
+                SettingsPicker().show(supportFragmentManager, "Country")
                 true
             }
 
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 
     private fun setupBottomSheet() {
         viewModel.currentCountry.observe(this) {
@@ -85,6 +79,5 @@ class NewsActivity : AppCompatActivity() {
 
         binding.bottomNavigation.setupWithNavController(navController)
     }
-
 
 }

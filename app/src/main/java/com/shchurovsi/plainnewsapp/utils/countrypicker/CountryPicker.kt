@@ -1,15 +1,11 @@
 package com.shchurovsi.plainnewsapp.utils.countrypicker
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import androidx.emoji.bundled.BundledEmojiCompatConfig
-import androidx.emoji.text.EmojiCompat
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shchurovsi.plainnewsapp.databinding.CountryPickerLayoutBinding
@@ -17,24 +13,15 @@ import com.shchurovsi.plainnewsapp.domain.entities.Country
 import com.shchurovsi.plainnewsapp.utils.countrypicker.adapter.CountryPickerAdapter
 import okio.IOException
 
+class CountryPicker : Fragment() {
 
-class CountryPicker(private val context: Context) : DialogFragment() {
+    private var _countryPickerBinding: CountryPickerLayoutBinding? = null
+    private val countryPickerBinding: CountryPickerLayoutBinding
+        get() = _countryPickerBinding ?: throw RuntimeException("CountryPicker is null!")
 
     private val countryPickerAdapter by lazy {
         CountryPickerAdapter()
     }
-
-    private val allCountries = getAllCountries()
-
-    private var _countryPickerBinding: CountryPickerLayoutBinding? = null
-    private val countryPickerBinding
-        get() = _countryPickerBinding ?: throw RuntimeException("CountryPicker is null!")
-
-    interface ConfirmationListener {
-        fun confirmButtonClick(country: String)
-    }
-
-    private lateinit var listener: ConfirmationListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,11 +29,8 @@ class CountryPicker(private val context: Context) : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _countryPickerBinding = CountryPickerLayoutBinding.inflate(
-            inflater,
-            container,
-            false
+            inflater, container, false
         )
-
         return countryPickerBinding.root
     }
 
@@ -54,20 +38,22 @@ class CountryPicker(private val context: Context) : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerView()
 
-
-        countryPickerAdapter.submitList(allCountries)
-
+        countryPickerAdapter.submitList(getAllCountries())
+        selectCountry()
     }
 
 
-    /**
-     * Get all countries from countries.json
-     */
+    private fun selectCountry() {
+        countryPickerAdapter.setOnSelectedCountryListener {
+            Log.d("TAG", "Country: ${it.code}")
+        }
+    }
+
     private fun getAllCountries(): List<Country> {
         val countries = mutableListOf<Country>()
 
         try {
-            val inputStream = context.assets.open("countries.json")
+            val inputStream = resources.assets.open("countries.json")
             val size = inputStream.available()
             val buffer = ByteArray(size)
             inputStream.read(buffer)
@@ -88,10 +74,13 @@ class CountryPicker(private val context: Context) : DialogFragment() {
         countryPickerBinding.countryPickerRecycler.apply {
             adapter = countryPickerAdapter
         }
-
     }
 
     companion object {
         private const val TAG = "CountryPicker"
+
+        fun newInstance(): CountryPicker {
+            return CountryPicker()
+        }
     }
 }
