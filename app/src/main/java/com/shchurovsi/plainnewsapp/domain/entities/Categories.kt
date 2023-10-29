@@ -2,15 +2,16 @@ package com.shchurovsi.plainnewsapp.domain.entities
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import javax.inject.Inject
 
 @Parcelize
-enum class Categories : Parcelable {
+enum class Categories @Inject constructor(val value: String) : Parcelable {
 
-    BUSINESS,
-    ENTERTAINMENT,
-    GENERAL,
-    HEALTH,
-    SCIENCE,
-    SPORTS,
-    TECHNOLOGY
+    BUSINESS("business"),
+    ENTERTAINMENT("entertainment"),
+    GENERAL("general"),
+    HEALTH("health"),
+    SCIENCE("science"),
+    SPORTS("sports"),
+    TECHNOLOGY("technology")
 }

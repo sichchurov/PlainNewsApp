@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shchurovsi.plainnewsapp.domain.entities.Article
+import com.shchurovsi.plainnewsapp.domain.entities.Categories
 import com.shchurovsi.plainnewsapp.domain.entities.NewsResponse
 import com.shchurovsi.plainnewsapp.domain.usecases.DeleteArticleUseCase
 import com.shchurovsi.plainnewsapp.domain.usecases.GetBreakingNewsUseCase
@@ -22,7 +23,8 @@ class NewsViewModel @Inject constructor(
     private val insertArticleUseCase: InsertArticleUseCase,
     private val deleteArticleUseCase: DeleteArticleUseCase,
     private val searchingNewsUseCase: SearchingNewsUseCase,
-    private val getBreakingNewsUseCase: GetBreakingNewsUseCase
+    private val getBreakingNewsUseCase: GetBreakingNewsUseCase,
+    private val category: Categories
 ) : ViewModel() {
 
     private val _breakingNews = MutableLiveData<Resource<NewsResponse>>()
@@ -44,9 +46,12 @@ class NewsViewModel @Inject constructor(
         getBreakingNews()
     }
 
-    private fun getBreakingNews(countryCode: String = COUNTRY_CODE) = viewModelScope.launch {
+    private fun getBreakingNews(
+        countryCode: String = COUNTRY_CODE,
+        newsCategory: String = category.value
+    ) = viewModelScope.launch {
         try {
-            val response = getBreakingNewsUseCase(countryCode, breakingNewsPage)
+            val response = getBreakingNewsUseCase(countryCode, breakingNewsPage, newsCategory)
             _breakingNews.value = Resource.Success(response)
         } catch (ioe: IOException) {
             _breakingNews.value =
@@ -79,7 +84,6 @@ class NewsViewModel @Inject constructor(
     fun deleteArticle(article: Article) = viewModelScope.launch {
         deleteArticleUseCase(article)
     }
-
 
     companion object {
         private const val COUNTRY_CODE = "us"
