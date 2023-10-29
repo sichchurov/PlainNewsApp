@@ -11,6 +11,7 @@ interface ApiService {
     suspend fun getBreakingNews(
         @Query("country") countryCode: String = "us",
         @Query("page") pageNumbers: Int = 1,
+        @Query("category") category: String,
         @Query("apiKey") apiKey: String = API_KEY
     ): NewsResponseDto
 

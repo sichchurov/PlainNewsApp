@@ -14,7 +14,8 @@ interface NewsRepository {
 
     suspend fun getBreakingNews(
         countryCode: String,
-        pageNumber: Int
+        pageNumber: Int,
+        category: String
     ): NewsResponse
 
     suspend fun searchingNews(

@@ -5,6 +5,10 @@ import javax.inject.Inject
 
 class GetBreakingNewsUseCase @Inject constructor(private val repository: NewsRepository) {
 
-    suspend operator fun invoke(countryCode: String, pageNumber: Int) =
-        repository.getBreakingNews(countryCode, pageNumber)
+    suspend operator fun invoke(
+        countryCode: String,
+        pageNumber: Int,
+        category: String
+    ) =
+        repository.getBreakingNews(countryCode, pageNumber, category)
 }
