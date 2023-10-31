@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
 
 @Parcelize
-enum class Categories @Inject constructor(val value: String) : Parcelable {
+enum class Categories(val value: String) : Parcelable {
 
     BUSINESS("business"),
     ENTERTAINMENT("entertainment"),

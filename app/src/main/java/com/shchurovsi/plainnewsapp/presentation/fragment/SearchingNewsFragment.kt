@@ -61,6 +61,7 @@ class SearchingNewsFragment : Fragment() {
 
         setupRecyclerView()
 
+
         newsAdapter.setOnItemClickListener { article ->
             findNavController().navigate(
                 SearchingNewsFragmentDirections
@@ -77,6 +78,7 @@ class SearchingNewsFragment : Fragment() {
                 job = lifecycleScope.launch {
                     delay(TEXT_DELAY_SEARCHING_NEWS)
                     if (editable.toString().isNotEmpty()) {
+                        binding.chooseCategory.visibility = View.GONE
                         viewModel.getSearchingNews(editable.toString())
                     }
                 }
@@ -85,6 +87,30 @@ class SearchingNewsFragment : Fragment() {
     }
 
     private fun getSearchingNews() {
+        viewModel.searchingNews.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    hideProgressBar()
+                    response.data?.let { newsResponse ->
+                        newsAdapter.submitList(newsResponse.articles)
+                    }
+                }
+
+                is Resource.Error -> {
+                    hideProgressBar()
+                    response.message?.let { message ->
+                        Log.e(TAG, "An error occurred $message")
+                    }
+                }
+
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
+            }
+        }
+    }
+
+    private fun getCategoryNews() {
         viewModel.searchingNews.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {

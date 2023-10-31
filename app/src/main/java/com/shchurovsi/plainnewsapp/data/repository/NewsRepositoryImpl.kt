@@ -18,6 +18,15 @@ class NewsRepositoryImpl @Inject constructor(
 
     override suspend fun getBreakingNews(
         countryCode: String,
+        pageNumber: Int
+    ): NewsResponse {
+        return mapper.mapNewsResponseDtoToNewsResponseEntity(
+            newsRemoteDataSource.getApi().getBreakingNews(countryCode, pageNumber)
+        )
+    }
+
+    override suspend fun getCategoryNews(
+        countryCode: String,
         pageNumber: Int,
         category: String
     ): NewsResponse {

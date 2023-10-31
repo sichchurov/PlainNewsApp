@@ -8,4 +8,10 @@
     <string name="lorem_ipsum">Lorem Ipsum is simply test double text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</string>
     <string name="null_description">%s description…</string>
     <string name="save_article_button">save article button</string>
+    <string name="technology">Technology</string>
+    <string name="general_news">General</string>
+    <string name="business">Business</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="sports">Sports</string>
+    <string name="science">Science</string>
 </resources>
