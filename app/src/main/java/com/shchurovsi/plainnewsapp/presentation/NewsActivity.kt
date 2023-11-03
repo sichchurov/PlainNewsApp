@@ -1,16 +1,13 @@
 package com.shchurovsi.plainnewsapp.presentation
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.shchurovsi.plainnewsapp.R
 import com.shchurovsi.plainnewsapp.databinding.ActivityNewsBinding
-import com.shchurovsi.plainnewsapp.presentation.fragment.SearchingNewsFragmentDirections
 import javax.inject.Inject
 
 class NewsActivity : AppCompatActivity() {
@@ -36,12 +33,12 @@ class NewsActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNavigation() {
-        val fragmentViewId = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
-        val navController = fragmentViewId?.findNavController()
-            ?: throw RuntimeException("Navcontroller doesn't exists")
+
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
+        val navController = navHostFragment.navController
 
         binding.bottomNavigation.setupWithNavController(navController)
-
     }
 
 }

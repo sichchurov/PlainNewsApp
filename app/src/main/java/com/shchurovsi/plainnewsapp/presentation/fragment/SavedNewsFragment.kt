@@ -114,5 +114,4 @@ class SavedNewsFragment : Fragment() {
             }
         }).attachToRecyclerView(binding.savedArticleRecycler)
     }
-
 }

@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.shchurovsi.plainnewsapp.R
 import com.shchurovsi.plainnewsapp.databinding.FragmentSearchingNewsBinding
 import com.shchurovsi.plainnewsapp.presentation.NewsActivity
 import com.shchurovsi.plainnewsapp.presentation.NewsViewModel
@@ -22,6 +23,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 class SearchingNewsFragment : Fragment() {
 
@@ -48,6 +50,7 @@ class SearchingNewsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding = FragmentSearchingNewsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -61,14 +64,20 @@ class SearchingNewsFragment : Fragment() {
 
         setupRecyclerView()
 
+        findNavController().addOnDestinationChangedListener { controller, destination, _ ->
+            if (destination.id == R.id.searchingNewsFragment) {
 
-        newsAdapter.setOnItemClickListener { article ->
-            findNavController().navigate(
-                SearchingNewsFragmentDirections
-                    .actionSearchingNewsFragmentToArticleFragment(article)
-            )
+                newsAdapter.setOnItemClickListener { article ->
+                    controller.navigate(
+                        SearchingNewsFragmentDirections
+                            .actionSearchingNewsFragmentToArticleFragment(article)
+                    )
+                }
+
+            }
         }
     }
+
 
     private fun inputQueryNews() {
         var job: Job? = null
