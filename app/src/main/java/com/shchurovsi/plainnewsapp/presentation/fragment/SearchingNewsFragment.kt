@@ -23,6 +23,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 class SearchingNewsFragment : Fragment() {
 
     private var _binding: FragmentSearchingNewsBinding? = null
@@ -44,10 +45,9 @@ class SearchingNewsFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+
         _binding = FragmentSearchingNewsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -59,12 +59,13 @@ class SearchingNewsFragment : Fragment() {
 
         getSearchingNews()
 
+        getCategoryNews()
+
         setupRecyclerView()
 
         newsAdapter.setOnItemClickListener { article ->
             findNavController().navigate(
-                SearchingNewsFragmentDirections
-                    .actionSearchingNewsFragmentToArticleFragment(article)
+                SearchingNewsFragmentDirections.actionSearchingNewsFragmentToArticleFragment(article)
             )
         }
     }
@@ -77,7 +78,11 @@ class SearchingNewsFragment : Fragment() {
                 job = lifecycleScope.launch {
                     delay(TEXT_DELAY_SEARCHING_NEWS)
                     if (editable.toString().isNotEmpty()) {
-                        viewModel.getSearchingNews(editable.toString())
+                        binding.chooseCategory.visibility = View.GONE
+                        viewModel.getSearchingNews(
+                            query = editable.toString(),
+                            newsCategory = EMPTY_INPUT
+                        )
                     }
                 }
             }
@@ -108,6 +113,23 @@ class SearchingNewsFragment : Fragment() {
         }
     }
 
+    private fun getCategoryNews() {
+        listOf(
+            binding.generalCard,
+            binding.businessCard,
+            binding.entertainmentCard,
+            binding.sportsCard,
+            binding.technologyCard,
+            binding.scienceCard
+        ).forEach { cat ->
+            cat.setOnClickListener {
+                binding.edSearchingNews.setText(cat.tag.toString())
+
+                viewModel.getSearchingNews(query = EMPTY_INPUT, newsCategory = cat.tag.toString())
+            }
+        }
+    }
+
     private fun showProgressBar() {
         binding.progressCircular.visibility = View.VISIBLE
     }
@@ -127,6 +149,7 @@ class SearchingNewsFragment : Fragment() {
     }
 
     companion object {
+        private const val EMPTY_INPUT = ""
         private const val TEXT_DELAY_SEARCHING_NEWS = 500L
         private const val TAG = "SearchingNewsFragment"
     }

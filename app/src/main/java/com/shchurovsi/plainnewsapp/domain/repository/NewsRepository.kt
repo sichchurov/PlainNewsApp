@@ -20,6 +20,7 @@ interface NewsRepository {
     suspend fun searchingNews(
         query: String,
         pageNumber: Int,
+        category: String,
         pageSize: Int
     ): NewsResponse
 }

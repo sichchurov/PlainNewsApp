@@ -3,18 +3,21 @@
 
     <item
         android:id="@+id/breakingNewsFragment"
+        android:menuCategory="system"
         android:enabled="true"
         android:icon="@drawable/ic_breaking_news"
         android:title="@string/breaking_news" />
 
     <item
         android:id="@+id/savedNewsFragment"
+        android:menuCategory="system"
         android:enabled="true"
         android:icon="@drawable/ic_save_news"
         android:title="@string/saved_news" />
 
     <item
         android:id="@+id/searchingNewsFragment"
+        android:menuCategory="system"
         android:enabled="true"
         android:icon="@drawable/ic_search_news"
         android:title="@string/search_news" />

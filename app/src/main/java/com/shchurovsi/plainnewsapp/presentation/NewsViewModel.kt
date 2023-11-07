@@ -22,7 +22,7 @@ class NewsViewModel @Inject constructor(
     private val insertArticleUseCase: InsertArticleUseCase,
     private val deleteArticleUseCase: DeleteArticleUseCase,
     private val searchingNewsUseCase: SearchingNewsUseCase,
-    private val getBreakingNewsUseCase: GetBreakingNewsUseCase
+    private val getBreakingNewsUseCase: GetBreakingNewsUseCase,
 ) : ViewModel() {
 
     private val _breakingNews = MutableLiveData<Resource<NewsResponse>>()
@@ -44,9 +44,14 @@ class NewsViewModel @Inject constructor(
         getBreakingNews()
     }
 
-    private fun getBreakingNews(countryCode: String = COUNTRY_CODE) = viewModelScope.launch {
+    private fun getBreakingNews(
+        countryCode: String = COUNTRY_CODE
+    ) = viewModelScope.launch {
         try {
-            val response = getBreakingNewsUseCase(countryCode, breakingNewsPage)
+            val response = getBreakingNewsUseCase(
+                countryCode,
+                breakingNewsPage
+            )
             _breakingNews.value = Resource.Success(response)
         } catch (ioe: IOException) {
             _breakingNews.value =
@@ -55,12 +60,20 @@ class NewsViewModel @Inject constructor(
             _breakingNews.value =
                 Resource.Error("[HTTP] error please retry, ${he.message}")
         }
-
     }
 
-    fun getSearchingNews(query: String, pageSize: Int = PAGE_SIZE) = viewModelScope.launch {
+    fun getSearchingNews(
+        query: String,
+        newsCategory: String,
+        pageSize: Int = PAGE_SIZE
+    ) = viewModelScope.launch {
         try {
-            val response = searchingNewsUseCase(query, searchingNewsPage, pageSize)
+            val response = searchingNewsUseCase(
+                query = query,
+                pageNumber = searchingNewsPage,
+                category = newsCategory,
+                pageSize = pageSize
+            )
             _searchingNews.value = Resource.Success(response)
         } catch (ioe: IOException) {
             _searchingNews.value =
@@ -79,7 +92,6 @@ class NewsViewModel @Inject constructor(
     fun deleteArticle(article: Article) = viewModelScope.launch {
         deleteArticleUseCase(article)
     }
-
 
     companion object {
         private const val COUNTRY_CODE = "us"
