@@ -74,11 +74,11 @@ dependencies {
 
     // Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    ksp("com.github.bumptech.glide:compiler:4.11.0")
+    ksp("com.github.bumptech.glide:compiler:4.16.0")
 
     //Dagger
     implementation("com.google.dagger:dagger:2.48.1")
-    ksp("com.google.dagger:dagger-compiler:2.48")
+    ksp("com.google.dagger:dagger-compiler:2.48.1")
 
     // Moshi
     implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
