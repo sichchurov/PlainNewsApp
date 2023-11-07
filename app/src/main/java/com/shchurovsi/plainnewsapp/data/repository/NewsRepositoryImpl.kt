@@ -25,23 +25,14 @@ class NewsRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getCategoryNews(
-        countryCode: String,
-        pageNumber: Int,
-        category: String
-    ): NewsResponse {
-        return mapper.mapNewsResponseDtoToNewsResponseEntity(
-            newsRemoteDataSource.getApi().getBreakingNews(countryCode, pageNumber, category)
-        )
-    }
-
     override suspend fun searchingNews(
         query: String,
         pageNumber: Int,
+        category: String,
         pageSize: Int
     ): NewsResponse {
         return mapper.mapNewsResponseDtoToNewsResponseEntity(
-            newsRemoteDataSource.getApi().searchNews(query, pageNumber, pageSize)
+            newsRemoteDataSource.getApi().searchNews(query, pageNumber, category, pageSize)
         )
     }
 

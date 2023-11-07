@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.shchurovsi.plainnewsapp.R
 import com.shchurovsi.plainnewsapp.databinding.FragmentSearchingNewsBinding
 import com.shchurovsi.plainnewsapp.presentation.NewsActivity
 import com.shchurovsi.plainnewsapp.presentation.NewsViewModel
@@ -46,9 +45,7 @@ class SearchingNewsFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         _binding = FragmentSearchingNewsBinding.inflate(inflater, container, false)
@@ -62,22 +59,16 @@ class SearchingNewsFragment : Fragment() {
 
         getSearchingNews()
 
+        getCategoryNews()
+
         setupRecyclerView()
 
-        findNavController().addOnDestinationChangedListener { controller, destination, _ ->
-            if (destination.id == R.id.searchingNewsFragment) {
-
-                newsAdapter.setOnItemClickListener { article ->
-                    controller.navigate(
-                        SearchingNewsFragmentDirections
-                            .actionSearchingNewsFragmentToArticleFragment(article)
-                    )
-                }
-
-            }
+        newsAdapter.setOnItemClickListener { article ->
+            findNavController().navigate(
+                SearchingNewsFragmentDirections.actionSearchingNewsFragmentToArticleFragment(article)
+            )
         }
     }
-
 
     private fun inputQueryNews() {
         var job: Job? = null
@@ -88,7 +79,10 @@ class SearchingNewsFragment : Fragment() {
                     delay(TEXT_DELAY_SEARCHING_NEWS)
                     if (editable.toString().isNotEmpty()) {
                         binding.chooseCategory.visibility = View.GONE
-                        viewModel.getSearchingNews(editable.toString())
+                        viewModel.getSearchingNews(
+                            query = editable.toString(),
+                            newsCategory = EMPTY_INPUT
+                        )
                     }
                 }
             }
@@ -120,25 +114,18 @@ class SearchingNewsFragment : Fragment() {
     }
 
     private fun getCategoryNews() {
-        viewModel.searchingNews.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Success -> {
-                    hideProgressBar()
-                    response.data?.let { newsResponse ->
-                        newsAdapter.submitList(newsResponse.articles)
-                    }
-                }
+        listOf(
+            binding.generalCard,
+            binding.businessCard,
+            binding.entertainmentCard,
+            binding.sportsCard,
+            binding.technologyCard,
+            binding.scienceCard
+        ).forEach { cat ->
+            cat.setOnClickListener {
+                binding.edSearchingNews.setText(cat.tag.toString())
 
-                is Resource.Error -> {
-                    hideProgressBar()
-                    response.message?.let { message ->
-                        Log.e(TAG, "An error occurred $message")
-                    }
-                }
-
-                is Resource.Loading -> {
-                    showProgressBar()
-                }
+                viewModel.getSearchingNews(query = EMPTY_INPUT, newsCategory = cat.tag.toString())
             }
         }
     }
@@ -162,6 +149,7 @@ class SearchingNewsFragment : Fragment() {
     }
 
     companion object {
+        private const val EMPTY_INPUT = ""
         private const val TEXT_DELAY_SEARCHING_NEWS = 500L
         private const val TAG = "SearchingNewsFragment"
     }

@@ -15,7 +15,6 @@
             app:destination="@id/articleFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
-            app:launchSingleTop="true"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/breakingNewsFragment"
@@ -24,7 +23,9 @@
     </fragment>
     <fragment
         android:id="@+id/savedNewsFragment"
-        android:name="com.shchurovsi.plainnewsapp.presentation.fragment.SavedNewsFragment">
+        tools:layout="@layout/fragment_saved_news"
+        android:name="com.shchurovsi.plainnewsapp.presentation.fragment.SavedNewsFragment"
+        android:label="Saved Article">
         <action
             android:id="@+id/action_savedNewsFragment_to_articleFragment"
             app:destination="@id/articleFragment"
@@ -39,7 +40,9 @@
 
     <fragment
         android:id="@+id/searchingNewsFragment"
-        android:name="com.shchurovsi.plainnewsapp.presentation.fragment.SearchingNewsFragment">
+        tools:layout="@layout/fragment_searching_news"
+        android:name="com.shchurovsi.plainnewsapp.presentation.fragment.SearchingNewsFragment"
+        android:label="Browse News">
         <action
             android:id="@+id/action_searchingNewsFragment_to_articleFragment"
             app:destination="@id/articleFragment"

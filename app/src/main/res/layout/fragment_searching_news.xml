@@ -33,6 +33,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="12dp"
             app:cardCornerRadius="20dp"
+            android:tag="@string/general_news"
             app:cardElevation="6dp">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -59,6 +60,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="12dp"
             app:cardCornerRadius="20dp"
+            android:tag="@string/business"
             app:cardElevation="6dp">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -85,6 +87,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="12dp"
             app:cardCornerRadius="20dp"
+            android:tag="@string/entertainment"
             app:cardElevation="6dp">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -111,6 +114,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="12dp"
             app:cardCornerRadius="20dp"
+            android:tag="@string/sports"
             app:cardElevation="6dp">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -137,6 +141,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="12dp"
             app:cardCornerRadius="20dp"
+            android:tag="@string/technology"
             app:cardElevation="6dp">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -163,6 +168,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="12dp"
             app:cardCornerRadius="20dp"
+            android:tag="@string/science"
             app:cardElevation="6dp">
 
             <com.google.android.material.imageview.ShapeableImageView

@@ -17,15 +17,10 @@ interface NewsRepository {
         pageNumber: Int
     ): NewsResponse
 
-    suspend fun getCategoryNews(
-        countryCode: String,
-        pageNumber: Int,
-        category: String
-    ): NewsResponse
-
     suspend fun searchingNews(
         query: String,
         pageNumber: Int,
+        category: String,
         pageSize: Int
     ): NewsResponse
 }

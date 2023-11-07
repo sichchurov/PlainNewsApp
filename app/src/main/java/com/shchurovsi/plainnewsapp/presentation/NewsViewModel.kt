@@ -5,11 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shchurovsi.plainnewsapp.domain.entities.Article
-import com.shchurovsi.plainnewsapp.domain.entities.Categories
 import com.shchurovsi.plainnewsapp.domain.entities.NewsResponse
 import com.shchurovsi.plainnewsapp.domain.usecases.DeleteArticleUseCase
 import com.shchurovsi.plainnewsapp.domain.usecases.GetBreakingNewsUseCase
-import com.shchurovsi.plainnewsapp.domain.usecases.GetCategoryNewsUseCase
 import com.shchurovsi.plainnewsapp.domain.usecases.GetSavedArticlesUseCase
 import com.shchurovsi.plainnewsapp.domain.usecases.InsertArticleUseCase
 import com.shchurovsi.plainnewsapp.domain.usecases.SearchingNewsUseCase
@@ -25,14 +23,7 @@ class NewsViewModel @Inject constructor(
     private val deleteArticleUseCase: DeleteArticleUseCase,
     private val searchingNewsUseCase: SearchingNewsUseCase,
     private val getBreakingNewsUseCase: GetBreakingNewsUseCase,
-    private val getCategoryNewsUseCase: GetCategoryNewsUseCase
 ) : ViewModel() {
-
-    private lateinit var newCategories: Categories
-
-    fun setCategory(categories: Categories) {
-        newCategories = categories
-    }
 
     private val _breakingNews = MutableLiveData<Resource<NewsResponse>>()
     val breakingNews: LiveData<Resource<NewsResponse>>
@@ -69,33 +60,20 @@ class NewsViewModel @Inject constructor(
             _breakingNews.value =
                 Resource.Error("[HTTP] error please retry, ${he.message}")
         }
-
     }
 
-    private fun getNewsByCategory(
-        countryCode: String = COUNTRY_CODE,
-        newsCategory: String = newCategories.value
+    fun getSearchingNews(
+        query: String,
+        newsCategory: String,
+        pageSize: Int = PAGE_SIZE
     ) = viewModelScope.launch {
         try {
-            val response = getCategoryNewsUseCase(
-                countryCode,
-                breakingNewsPage,
-                newsCategory
+            val response = searchingNewsUseCase(
+                query = query,
+                pageNumber = searchingNewsPage,
+                category = newsCategory,
+                pageSize = pageSize
             )
-            _breakingNews.value = Resource.Success(response)
-        } catch (ioe: IOException) {
-            _breakingNews.value =
-                Resource.Error("[IO] error please retry, ${ioe.message}")
-        } catch (he: HttpException) {
-            _breakingNews.value =
-                Resource.Error("[HTTP] error please retry, ${he.message}")
-        }
-
-    }
-
-    fun getSearchingNews(query: String, pageSize: Int = PAGE_SIZE) = viewModelScope.launch {
-        try {
-            val response = searchingNewsUseCase(query, searchingNewsPage, pageSize)
             _searchingNews.value = Resource.Success(response)
         } catch (ioe: IOException) {
             _searchingNews.value =

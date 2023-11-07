@@ -10,8 +10,9 @@ class SearchingNewsUseCase @Inject constructor(
     suspend operator fun invoke(
         query: String,
         pageNumber: Int,
+        category: String,
         pageSize: Int
     ): NewsResponse {
-        return repository.searchingNews(query, pageNumber, pageSize)
+        return repository.searchingNews(query, pageNumber, category, pageSize)
     }
 }
