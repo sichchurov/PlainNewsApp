@@ -42,11 +42,13 @@ class NewsViewModel @Inject constructor(
     init {
         _breakingNews.postValue(Resource.Loading())
         getBreakingNews()
+
     }
 
     private fun getBreakingNews(
         countryCode: String = COUNTRY_CODE
     ) = viewModelScope.launch {
+
         try {
             val response = getBreakingNewsUseCase(
                 countryCode,

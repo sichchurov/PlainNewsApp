@@ -36,6 +36,8 @@ class NewsActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         setupBottomNavigation()
+
+
     }
 
     private fun setupBottomNavigation() {

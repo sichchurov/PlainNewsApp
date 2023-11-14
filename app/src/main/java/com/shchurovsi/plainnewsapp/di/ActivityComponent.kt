@@ -8,7 +8,7 @@ import com.shchurovsi.plainnewsapp.presentation.fragment.SearchingNewsFragment
 import dagger.Subcomponent
 
 @ActivityScope
-@Subcomponent(modules = [ViewModelModule::class])
+@Subcomponent
 interface ActivityComponent {
 
     @Subcomponent.Factory
